@@ -4,6 +4,16 @@ import './components/Product';
 import Product from "./components/Product";
 
 class App extends Component {
+    constructor(props){
+        super(props);
+        this.onAddProduct = this.onAddProduct.bind(this);
+    }
+    onClick(){
+        console.log("This is component");
+    }
+    onAddProduct = () => {
+        console.log(this.refs);
+    }
     render() {
         var products = [
             {
@@ -59,7 +69,29 @@ class App extends Component {
                     <div className="row">
                         <div className="row">
                             <div className="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                                <div className="panel panel-danger">
+                                    <div className="panel-heading">
+                                        <h3 className="panel-title">Add Product</h3>
+                                    </div>
+                                </div>
+                                <div className="form-group">
+                                    <label>Product Name</label>
+                                    <input type="text" className="form-control" ref="name"/>
+                                </div>
+                                <button type="submit" className="btn btn-primary" onClick={this.onAddProduct }>Submit</button>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-xs-12 col-sm-12 col-lg-12 col-md-12">
                                 {elements}
+                            </div>
+                            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <button type="button" className="btn btn-success" onClick={this.onClick}>
+                                    Click Me !!
+                                </button>
+                                <button type="button" className="btn btn-success" onClick={() => this.onClick2('ABC')}>
+                                    Click Me 2 !!
+                                </button>
                             </div>
                         </div>
                     </div>
