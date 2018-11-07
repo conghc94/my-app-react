@@ -2,129 +2,98 @@ import React, { Component } from 'react';
 import './App.css';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      txtUserName: 'a',
-      txtPassword: '',
-      txtDescription: 'as',
-      sltGender: 1,
-      rdLanguage: 'en',
-      chkbStatus: true,
-    };
 
-    this.onHandleChange = this.onHandleChange.bind(this)
-    this.onHandleSubmit = this.onHandleSubmit.bind(this)
-  }
-
-  onHandleChange(event){
-    var target = event.target;
-    var name = target.name;
-    var value = target.type === 'checkbox' ? target.checked : target.value;
-
-    this.setState({
-      [name] : value
-    });
-  }
-
-  onHandleSubmit(event){
-    event.preventDefault()
-    console.log(this.state)
-  }
 
   render(){
     return (
       <div className="container mt-30">
+        <div className="text-center">
+          <h1>Works management</h1>
+        </div>
         <div className="row">
-          <div className="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-            <div className="panel panel-primary">
+          <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <div className="panel panel-warning">
               <div className="panel-heading">
-                <h3 className="panel-title">Form</h3>
+                <h3 className="panel-title">Add work<span class="fa fa-times-circle text-right"></span></h3>
               </div>
               <div className="panel-body">
-                <form onSubmit={this.onHandleSubmit}>
-                  <div className="form-group">
-                    <label>Username: </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="txtUserName"
-                      onChange={this.onHandleChange}
-                      value={this.state.txtUserName}
-                    />
+                <form>
+                  <div className="form-group"><label>Name :</label><input type="text" className="form-control" name="name" value="" />
+
                   </div>
-                  <div className="form-group">
-                    <label>Password: </label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      name="txtPassword"
-                      onChange={this.onHandleChange}
-                      value={this.state.txtPassword}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>Description: </label>
-                    <textarea
-                      name="txtDescription"
-                      className="form-control"
-                      row="3"
-                      onChange = {this.onHandleChange}
-                      value={this.state.txtDescription}
-                    ></textarea>
-                  </div>
-                  <div className="form-group">
-                    <label>Gender: </label>
-                    <select
-                      name="sltGender"
-                      className="form-control"
-                      value={this.state.sltGender}
-                      onChange={this.onHandleChange}
-                    >
-                      <option value={0} >Male</option>
-                      <option value={1} >Female</option>
-                    </select>
-                  </div>
-                  <div className="form-group">
-                    <label>Language: </label>
-                    <br/>
-                      <label>
-                        <input
-                          type="radio"
-                          name="rdLanguage"
-                          value="ja"
-                          onChange={this.onHandleChange}
-                          checked={this.state.rdLanguage === "ja"}
-                        />
-                          Japanese
-                      </label>
-                      <br/>
-                      <label>
-                        <input
-                          type="radio"
-                          name="rdLanguage"
-                          value="en"
-                          onChange={this.onHandleChange}
-                          checked={this.state.rdLanguage === "en"}
-                        />
-                        English
-                      </label>
-                  </div>
-                  <div className="checkbox">
-                    <label>
-                      <input
-                        type="checkbox"
-                        name="chkbStatus"
-                        value={true}
-                        onChange={this.onHandleChange}
-                        checked={this.state.chkbStatus === true}
-                      />
-                      Status
-                    </label>
-                  </div>
-                  <button type="submit" className="btn btn-primary">Save</button>&nbsp;
-                  <button type="reset" className="btn btn-default">Clear</button>
+                  <label>Status :</label>
+                  <select className="form-control" name="status">
+                    <option value="true">Active</option>
+                    <option value="false">Hidden</option>
+                  </select>
+                  <br />
+                    <div className="text-center">
+                      <button type="submit" className="btn btn-warning">
+                        <span class="fa fa-plus mr-5"></span>Add
+                      </button>&nbsp;<button type="button" class="btn btn-danger">
+                        <span class="fa fa-close mr-5"></span>Cancel
+                      </button>
+                    </div>
                 </form>
+              </div>
+            </div>
+          </div>
+          <div className="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            <button type="button" className="btn btn-primary">
+              <span class="fa fa-plus mr-5"></span>Add work
+            </button>
+            <div className="row mt-15">
+              <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <div className="input-group">
+                  <input type="text" name="keyword" value="" class="form-control" placeholder="Enter keywords..." />
+                    <span className="input-group-btn">
+                      <button class="btn btn-primary" type="button">
+                        <span class="fa fa-search mr-5"></span>Search
+                    </button>
+                    </span>
+                </div>
+              </div>
+              <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <div className="dropdown">
+                  <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sort
+                    <span class="fa fa-caret-square-o-down ml-5"></span>
+                  </button>
+                  <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a role="button" className="sort_selected"><span className="fa fa-sort-alpha-asc pr-5">Name A-Z</span></a></li>
+                    <li><a role="button" className=""><span className="fa fa-sort-alpha-desc pr-5">Name Z-A</span></a></li>
+                    <li role="separator" className="divider"></li>
+                    <li><a role="button" className="">Status active</a></li>
+                    <li><a role="button" className="">Status hidden</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className="row mt-15">
+              <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <table className="table table-bordered table-hover">
+                  <thead>
+                  <tr>
+                    <th className="text-center">Index</th>
+                    <th className="text-center">Name</th>
+                    <th className="text-center">Status</th>
+                    <th className="text-center">Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td></td>
+                    <td><input type="text" className="form-control" name="filterName" /></td>
+                    <td>
+                      <select className="form-control" name="filterStatus">
+                        <option value="-1">All</option>
+                        <option value="0">Hidden</option>
+                        <option value="1">Active</option>
+                      </select>
+                    </td>
+                    <td></td>
+                  </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
