@@ -8,7 +8,9 @@ class App extends Component {
       txtUserName: 'a',
       txtPassword: '',
       txtDescription: 'as',
-      sltGender: 1
+      sltGender: 1,
+      rdLanguage: 'en',
+      chkbStatus: true,
     };
 
     this.onHandleChange = this.onHandleChange.bind(this)
@@ -18,7 +20,8 @@ class App extends Component {
   onHandleChange(event){
     var target = event.target;
     var name = target.name;
-    var value = target.value;
+    var value = target.type === 'checkbox' ? target.checked : target.value;
+
     this.setState({
       [name] : value
     });
@@ -78,8 +81,8 @@ class App extends Component {
                       value={this.state.sltGender}
                       onChange={this.onHandleChange}
                     >
-                      <option value={0} selected={this.state === 0}>Male</option>
-                      <option value={1} selected={this.state === 1}>Female</option>
+                      <option value={0} >Male</option>
+                      <option value={1} >Female</option>
                     </select>
                   </div>
                   <div className="form-group">
@@ -91,6 +94,7 @@ class App extends Component {
                           name="rdLanguage"
                           value="ja"
                           onChange={this.onHandleChange}
+                          checked={this.state.rdLanguage === "ja"}
                         />
                           Japanese
                       </label>
@@ -101,9 +105,22 @@ class App extends Component {
                           name="rdLanguage"
                           value="en"
                           onChange={this.onHandleChange}
+                          checked={this.state.rdLanguage === "en"}
                         />
                         English
                       </label>
+                  </div>
+                  <div className="checkbox">
+                    <label>
+                      <input
+                        type="checkbox"
+                        name="chkbStatus"
+                        value={true}
+                        onChange={this.onHandleChange}
+                        checked={this.state.chkbStatus === true}
+                      />
+                      Status
+                    </label>
                   </div>
                   <button type="submit" className="btn btn-primary">Save</button>&nbsp;
                   <button type="reset" className="btn btn-default">Clear</button>
