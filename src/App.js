@@ -1,10 +1,62 @@
 import React, { Component } from 'react';
 import './App.css';
+import TaskForm from './components/TaskForm';
+import Control from './components/Control';
+import TaskList from './components/TaskList';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tasks: []
+    }
+  }
 
+  componentWillMount(){
+    if(localStorage && localStorage.getItem('tasks')){
+      var tasks = JSON.parse(localStorage.getItem('tasks'));
+      this.setState({
+        tasks: tasks
+      });
+    }
+  }
+
+  onGenerateData = () => {
+    var tasks = [
+      {
+        id: this.generateID(),
+        name: 'Coding',
+        status: true,
+      },
+      {
+        id: this.generateID(),
+        name: 'Swimming',
+        status: false,
+      },
+      {
+        id: this.generateID(),
+        name: 'Sleep',
+        status: true,
+      }
+    ];
+
+    this.setState({
+      tasks: tasks
+    });
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+
+  s4(){
+    return Math.floor((1+Math.random()) * 0x10000).toString(16).substring(1);
+  }
+
+  generateID(){
+    return this.s4() + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' + this.s4() +
+    '-' + this.s4() + '-' + this.s4() + '-' + this.s4()+ '-' + this.s4();
+  }
 
   render(){
+    var { tasks } = this.state; // var tasks = this.state.tasks
     return (
       <div className="container mt-30">
         <div className="text-center">
@@ -12,88 +64,25 @@ class App extends Component {
         </div>
         <div className="row">
           <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-            <div className="panel panel-warning">
-              <div className="panel-heading">
-                <h3 className="panel-title">Add work<span class="fa fa-times-circle text-right"></span></h3>
-              </div>
-              <div className="panel-body">
-                <form>
-                  <div className="form-group"><label>Name :</label><input type="text" className="form-control" name="name" value="" />
-
-                  </div>
-                  <label>Status :</label>
-                  <select className="form-control" name="status">
-                    <option value="true">Active</option>
-                    <option value="false">Hidden</option>
-                  </select>
-                  <br />
-                    <div className="text-center">
-                      <button type="submit" className="btn btn-warning">
-                        <span class="fa fa-plus mr-5"></span>Add
-                      </button>&nbsp;<button type="button" class="btn btn-danger">
-                        <span class="fa fa-close mr-5"></span>Cancel
-                      </button>
-                    </div>
-                </form>
-              </div>
-            </div>
+            {/* Form */}
+            <TaskForm />
           </div>
           <div className="col-xs-8 col-sm-8 col-md-8 col-lg-8">
             <button type="button" className="btn btn-primary">
-              <span class="fa fa-plus mr-5"></span>Add work
+              <span className="fa fa-plus mr-5"></span>Add work
+            </button><span>&nbsp;</span>
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={this.onGenerateData}
+            >
+              Generate Data
             </button>
-            <div className="row mt-15">
-              <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <div className="input-group">
-                  <input type="text" name="keyword" value="" class="form-control" placeholder="Enter keywords..." />
-                    <span className="input-group-btn">
-                      <button class="btn btn-primary" type="button">
-                        <span class="fa fa-search mr-5"></span>Search
-                    </button>
-                    </span>
-                </div>
-              </div>
-              <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <div className="dropdown">
-                  <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sort
-                    <span class="fa fa-caret-square-o-down ml-5"></span>
-                  </button>
-                  <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
-                    <li><a role="button" className="sort_selected"><span className="fa fa-sort-alpha-asc pr-5">Name A-Z</span></a></li>
-                    <li><a role="button" className=""><span className="fa fa-sort-alpha-desc pr-5">Name Z-A</span></a></li>
-                    <li role="separator" className="divider"></li>
-                    <li><a role="button" className="">Status active</a></li>
-                    <li><a role="button" className="">Status hidden</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+              {/* Control */}
+              <Control />
             <div className="row mt-15">
               <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <table className="table table-bordered table-hover">
-                  <thead>
-                  <tr>
-                    <th className="text-center">Index</th>
-                    <th className="text-center">Name</th>
-                    <th className="text-center">Status</th>
-                    <th className="text-center">Action</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <td></td>
-                    <td><input type="text" className="form-control" name="filterName" /></td>
-                    <td>
-                      <select className="form-control" name="filterStatus">
-                        <option value="-1">All</option>
-                        <option value="0">Hidden</option>
-                        <option value="1">Active</option>
-                      </select>
-                    </td>
-                    <td></td>
-                  </tr>
-                  </tbody>
-                </table>
+                <TaskList tasks={tasks}/>
               </div>
             </div>
           </div>
