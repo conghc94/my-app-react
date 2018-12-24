@@ -2,24 +2,69 @@ import React, {Component} from "react";
 
 class TaskForm extends Component {
 
+  constructor(props){
+    super(props);
+    this.state = {
+      name : '',
+      status : false
+    }
+  }
+
+  onCloseForm = () => {
+    this.props.onCloseForm();
+  }
+
+  onChange = (event) => {
+    var target = event.target;
+    var name = target.name;
+    var value = target.value;
+    if(name === 'status'){
+      value = event.value === true ? true : false;
+    }
+    this.setState({
+      [name]: value
+    })
+  }
+
+  onSubmit = (event) => {
+    event.preventDefault();
+    this.props.onSubmit(this.state);
+}
+
   render(){
     return (
       <div className="panel panel-warning">
         <div className="panel-heading">
           <h3 className="panel-title">
-            Add work<span className="fa fa-times-circle text-right"></span>
+            Add work
+            <span
+              className="fa fa-times-circle text-right"
+              onClick = { this.onCloseForm }
+            >
+            </span>
           </h3>
         </div>
         <div className="panel-body">
-          <form>
+          <form onSubmit={this.onSubmit}>
             <div className="form-group">
               <label>Name :</label>
-              <input type="text" className="form-control" name="name"/>
+              <input
+                type="text"
+                className="form-control"
+                name="name"
+                value={this.state.name}
+                onChange={this.onChange}
+              />
             </div>
             <label>Status :</label>
-            <select className="form-control" name="status">
-              <option value="true">Active</option>
-              <option value="false">Hidden</option>
+            <select
+              className="form-control"
+              name="status"
+              value={this.state.status}
+              onChange={this.onChange}
+            >
+              <option value={true}>Active</option>
+              <option value={false}>Hidden</option>
             </select>
             <br/>
             <div className="text-center">
