@@ -22,31 +22,6 @@ class App extends Component {
     }
   }
 
-  onGenerateData = () => {
-    var tasks = [
-      {
-        id: this.generateID(),
-        name: 'Coding',
-        status: true,
-      },
-      {
-        id: this.generateID(),
-        name: 'Swimming',
-        status: false,
-      },
-      {
-        id: this.generateID(),
-        name: 'Sleep',
-        status: true,
-      }
-    ];
-
-    this.setState({
-      tasks: tasks
-    });
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-  }
-
   s4(){
     return Math.floor((1+Math.random()) * 0x10000).toString(16).substring(1);
   }
@@ -76,7 +51,46 @@ class App extends Component {
       tasks: tasks
     });
     localStorage.setItem('tasks', JSON.stringify(tasks));
+
   }
+
+
+
+  findIndex = (id) => {
+    var {tasks} = this.state;
+    var result = -1;
+    tasks.forEach((task,index) => {
+      if(task.id === id){
+        result = index;
+      }
+    })
+    return result;
+  }
+
+  onUpdateStatus = (id) => {
+    var {tasks} = this.state;
+    var index = this.findIndex(id);
+    if(index !== -1){
+      tasks[index].status = !tasks[index].status;
+      this.setState({
+        tasks : tasks
+      });
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+  }
+
+  onDelete = (id) => {
+    var {tasks} = this.state;
+    var index = this.findIndex(id);
+    if(index !== -1){
+      tasks.splice(index,1);
+      this.setState({
+        tasks: tasks
+      });
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+  }
+
   render(){
     var { tasks, isDisplayForm } = this.state; // var tasks = this.state.tasks
     var elementTaskForm  = isDisplayForm ?
@@ -101,18 +115,15 @@ class App extends Component {
             >
               <span className="fa fa-plus mr-5"></span>Add work
             </button><span>&nbsp;</span>
-            <button
-              type="button"
-              className="btn btn-danger"
-              onClick={this.onGenerateData}
-            >
-              Generate Data
-            </button>
               {/* Control */}
               <Control />
             <div className="row mt-15">
               <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <TaskList tasks={tasks}/>
+                <TaskList
+                  tasks={tasks}
+                  onUpdateStatus={this.onUpdateStatus}
+                  onDelete={this.onDelete}
+                />
               </div>
             </div>
           </div>

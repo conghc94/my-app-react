@@ -29,7 +29,16 @@ class TaskForm extends Component {
   onSubmit = (event) => {
     event.preventDefault();
     this.props.onSubmit(this.state);
-}
+    this.onClear();
+    this.onCloseForm();
+  }
+
+  onClear = () => {
+    this.setState({
+      name: '',
+      status: false
+    });
+  }
 
   render(){
     return (
@@ -68,11 +77,18 @@ class TaskForm extends Component {
             </select>
             <br/>
             <div className="text-center">
-              <button type="submit" className="btn btn-warning">
+              <button
+                type="submit"
+                className="btn btn-warning"
+              >
                 <span className="fa fa-plus mr-5"></span>Add
               </button>
               &nbsp;
-              <button type="button" className="btn btn-danger">
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={this.onClear}
+              >
                 <span className="fa fa-close mr-5"></span>Cancel
               </button>
             </div>
